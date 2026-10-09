@@ -47,8 +47,8 @@ class Quote(Base):
     __tablename__ = "quotes"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
-    customer_name: Mapped[str] = mapped_column(String(150), nullable=False)
-    customer_email: Mapped[str] = mapped_column(String(255), nullable=False, index=True)
+    customer_name: Mapped[str | None] = mapped_column(String(150), nullable=True)
+    customer_email: Mapped[str | None] = mapped_column(String(255), nullable=True, index=True)
     guests: Mapped[int] = mapped_column(Integer, nullable=False)
     package_id: Mapped[int] = mapped_column(ForeignKey("packages.id"), nullable=False)
     total_amount: Mapped[Decimal] = mapped_column(Numeric(12, 2), nullable=False)

@@ -1,41 +1,34 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
+
+from app.db.database import get_db
+from app.models.models import Addon, Package
 
 router = APIRouter()
 
 
 @router.get("/catalog")
-def get_catalog() -> dict:
+def get_catalog(db: Session = Depends(get_db)) -> dict:
+    packages = db.query(Package).order_by(Package.id.asc()).all()
+    addons = db.query(Addon).order_by(Addon.id.asc()).all()
+
     return {
         "packages": [
             {
-                "id": 1,
-                "name": "Paquete #1",
-                "description": "Mano de piedra en salsa demiglace y hongos",
-                "price_per_person": 11000,
-            },
+                "id": pkg.id,
+                "name": pkg.name,
+                "description": pkg.description,
+                "price_per_person": float(pkg.price_per_person),
+            }
+            for pkg in packages
+        ],
+        "addons": [
             {
-                "id": 2,
-                "name": "Paquete #2",
-                "description": "Pechuga de pollo a la parrilla en salsa Alfredo de hongos",
-                "price_per_person": 12500,
-            },
-            {
-                "id": 3,
-                "name": "Paquete #3",
-                "description": "Cordon Bleu en salsa Alfredo de hongos",
-                "price_per_person": 14000,
-            },
-            {
-                "id": 4,
-                "name": "Paquete #4",
-                "description": "Costilla de cerdo en salsa BBQ de manzana",
-                "price_per_person": 12000,
-            },
-            {
-                "id": 5,
-                "name": "Paquete #5",
-                "description": "NY Steak (300g) con chimichurri argentino",
-                "price_per_person": 16500,
-            },
-        ]
+                "id": addon.id,
+                "name": addon.name,
+                "price_type": addon.price_type,
+                "price_value": float(addon.price_value),
+            }
+            for addon in addons
+        ],
     }
