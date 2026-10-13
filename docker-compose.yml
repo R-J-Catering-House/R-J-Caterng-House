@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   db:
     image: postgres:15
@@ -12,6 +10,11 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rj_user -d rj_catering"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
   backend:
     build:
@@ -19,7 +22,7 @@ services:
       dockerfile: Dockerfile
     container_name: rj_catering_backend
     environment:
-      DATABASE_URL: postgresql+psycopg://db:5432/rj_catering
+      DATABASE_URL: postgresql+psycopg://rj_user:rj_password@db:5432/rj_catering
       SMTP_HOST: smtp.example.com
       SMTP_PORT: "587"
       SMTP_USER: demo@example.com
@@ -31,7 +34,9 @@ services:
     volumes:
       - ./backend:/app
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    restart: on-failure
 
   frontend:
     build:
@@ -46,7 +51,8 @@ services:
       - ./frontend:/app
       - /app/node_modules
     depends_on:
-      - backend
+      backend:
+        condition: service_started
 
 volumes:
   postgres_data:
