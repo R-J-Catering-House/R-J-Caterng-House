@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
+import { Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
 import type { ReactNode } from "react";
 import "./globals.css";
 
+const display = Playfair_Display({ subsets: ["latin"], variable: "--font-display" });
+const sans = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-sans" });
+
 export const metadata: Metadata = {
   title: "R&J Catering House",
-  description: "Portal, cotizador y panel de administración para eventos.",
+  description: "Catering boutique para celebraciones extraordinarias.",
 };
 
 export default function RootLayout({
@@ -14,8 +18,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className="min-h-screen">
-        <main className="mx-auto max-w-6xl px-4 py-10">{children}</main>
+      <body className={`${display.variable} ${sans.variable} min-h-screen font-sans`}>
+        <main className="mx-auto max-w-7xl px-4 py-8 sm:px-8 sm:py-12">{children}</main>
       </body>
     </html>
   );

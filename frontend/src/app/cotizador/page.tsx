@@ -1,236 +1,90 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
 
-import type { Addons, QuoteRequest, QuoteResponse } from "@/types/quote";
+type Salon = { id: string; name: string; place: string; description: string; fee: number; perPerson: number; maxGuests: number; image: string };
+type Food = { id: number; name: string; description: string; price: number; image: string };
+type Option = { id: string; name: string; price: number; image: string };
 
-const PACKAGE_OPTIONS = [
-  { id: 1, label: "Paquete #1", price: 11000 },
-  { id: 2, label: "Paquete #2", price: 12500 },
-  { id: 3, label: "Paquete #3", price: 14000 },
-  { id: 4, label: "Paquete #4", price: 12000 },
-  { id: 5, label: "Paquete #5", price: 16500 },
+const salons: Salon[] = [
+  { id: "tecal", name: "El Tecal", place: "Uvita", description: "Un espacio tropical con acceso a una experiencia costera memorable.", fee: 0, perPerson: 14000, maxGuests: 800, image: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=900&q=85" },
+  { id: "asador", name: "El Asador", place: "General Viejo", description: "La casa de R&J para celebrar con sabor, calidez y servicio cercano.", fee: 150000, perPerson: 0, maxGuests: 150, image: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=900&q=85" },
+  { id: "corteza", name: "La Corteza", place: "Palmares · Pérez Zeledón", description: "Un entorno íntimo y elegante para reuniones especiales.", fee: 80000, perPerson: 0, maxGuests: 150, image: "https://images.unsplash.com/photo-1478146896981-b80fe463b330?auto=format&fit=crop&w=900&q=85" },
 ];
+const experiences = [
+  { id: "silver", name: "Plata / Esencial", max: 80, description: "Montaje ágil y refinado para eventos íntimos o corporativos." },
+  { id: "gold", name: "Dorado / Grand Hall", max: 150, description: "Banquete formal con montaje de gala en el salón principal." },
+  { id: "emerald", name: "Esmeralda VIP", max: 800, description: "Villa, piscina, cóctel de bienvenida, atención VIP y coordinación dedicada." },
+];
+const foods: Food[] = [
+  { id: 1, name: "Mano de piedra", description: "En salsa demiglace y hongos.", price: 11000, image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=85" },
+  { id: 2, name: "Pechuga a la parrilla", description: "En salsa Alfredo de hongos.", price: 12500, image: "https://images.unsplash.com/photo-1532550907401-a500c9a57435?auto=format&fit=crop&w=800&q=85" },
+  { id: 3, name: "Cordon Bleu", description: "En salsa Alfredo de hongos.", price: 14000, image: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=85" },
+  { id: 4, name: "Costilla de cerdo", description: "En BBQ de manzana.", price: 12000, image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=85" },
+  { id: 5, name: "NY Steak", description: "300 g importado con chimichurri.", price: 16500, image: "https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=800&q=85" },
+];
+const accompaniments = ["Puré de papas", "Papas rostizadas", "Arroz con almendras", "Ensalada verde", "Vegetales a la parrilla"];
+const desserts: Option[] = [
+  { id: "cheesecake", name: "Torta de queso con moras", price: 2500, image: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=500&q=85" },
+  { id: "flan", name: "Flan horneado", price: 2000, image: "https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=500&q=85" },
+  { id: "tiramisu", name: "Tiramisú", price: 2500, image: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=500&q=85" },
+];
+const starters: Option[] = [
+  { id: "sopa", name: "Sopa Azteca", price: 2000, image: "https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=500&q=85" },
+  { id: "ayote", name: "Crema de ayote", price: 2000, image: "https://images.unsplash.com/photo-1603105037880-880cd4edfb0d?auto=format&fit=crop&w=500&q=85" },
+  { id: "salmon", name: "Ensalada con salmón", price: 2000, image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=500&q=85" },
+  { id: "burger", name: "Mini hamburguesa", price: 2000, image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=500&q=85" },
+];
+const included = ["Montaje general", "Chef principal", "Cocinero auxiliar", "Servicio de mesa", "Saloneros dedicados", "Mesas y mantelería", "Cristalería completa", "Refresco ilimitado"];
 
-const EXTRA_LABELS: Record<keyof Addons, string> = {
-  entradas: "Entradas (+₡2.000 por invitado)",
-  postres: "Mesa de postres (+₡85.000)",
-  dj: "DJ (+₡200.000)",
-  fotocabina: "Fotocabina (+₡85.000)",
-};
-
-const initialAddons: Addons = {
-  entradas: false,
-  postres: false,
-  dj: false,
-  fotocabina: false,
-};
-
-function formatCRC(value: number) {
-  return new Intl.NumberFormat("es-CR", { style: "currency", currency: "CRC", maximumFractionDigits: 0 }).format(value);
+const crc = (value: number) => `₡${Math.round(value).toLocaleString("es-CR")}`;
+function duration(start: string, end: string) {
+  const [sh, sm] = start.split(":").map(Number); const [eh, em] = end.split(":").map(Number);
+  const minutes = eh * 60 + em - (sh * 60 + sm); return minutes > 0 ? `${Math.floor(minutes / 60)} h ${minutes % 60} min` : "Horario por confirmar";
 }
 
 export default function CotizadorPage() {
   const [step, setStep] = useState(1);
-  const [guests, setGuests] = useState(60);
-  const [packageId, setPackageId] = useState(1);
-  const [addons, setAddons] = useState<Addons>(initialAddons);
-  const [customerName, setCustomerName] = useState("");
-  const [customerEmail, setCustomerEmail] = useState("");
-  const [quote, setQuote] = useState<QuoteResponse | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [date, setDate] = useState(""); const [start, setStart] = useState("16:00"); const [end, setEnd] = useState("22:00");
+  const [guests, setGuests] = useState(60); const [salonId, setSalonId] = useState("asador"); const [pool, setPool] = useState<"yes" | "no">("no"); const [experienceId, setExperienceId] = useState("gold");
+  const [foodId, setFoodId] = useState(1); const [selectedSides, setSelectedSides] = useState<string[]>(accompaniments.slice(0, 2)); const [dessertQty, setDessertQty] = useState<Record<string, number>>({}); const [selectedStarters, setSelectedStarters] = useState<string[]>([]);
+  const [decoration, setDecoration] = useState("Rústico Chic"); const [centerpiece, setCenterpiece] = useState("Florales altos"); const [cocktail, setCocktail] = useState("none"); const [customerName, setCustomerName] = useState(""); const [customerEmail, setCustomerEmail] = useState(""); const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    const requestedSalon = new URLSearchParams(window.location.search).get("salon");
+    if (requestedSalon && salons.some((item) => item.id === requestedSalon)) setSalonId(requestedSalon);
+  }, []);
 
-  const payload: QuoteRequest = useMemo(
-    () => ({
-      customer_name: customerName || undefined,
-      customer_email: customerEmail || undefined,
-      guests,
-      package_id: packageId,
-      addons,
-    }),
-    [addons, customerEmail, customerName, guests, packageId],
-  );
+  const salon = salons.find((item) => item.id === salonId) ?? salons[1]; const experience = experiences.find((item) => item.id === experienceId) ?? experiences[1]; const food = foods.find((item) => item.id === foodId) ?? foods[0];
+  const dessertTotal = desserts.reduce((total, item) => total + (dessertQty[item.id] ?? 0) * item.price, 0); const dessertCount = Object.values(dessertQty).reduce((a, b) => a + b, 0); const starterPerPerson = selectedStarters.length * 2000; const cocktailPerPerson = cocktail === "margarita" ? 3000 : cocktail === "gin" ? 2000 : cocktail === "primavera" ? 1500 : 0;
+  const foodPerPerson = food.price + (salon.perPerson || 0) + starterPerPerson + cocktailPerPerson; const total = salon.fee + foodPerPerson * guests + dessertTotal; const waiters = Math.ceil(guests / 20);
+  const setSalon = (id: string) => { const next = salons.find((item) => item.id === id) ?? salons[1]; setSalonId(id); if (guests > next.maxGuests) setGuests(next.maxGuests); if (id === "tecal") setExperienceId("emerald"); };
+  const toggleSide = (name: string) => setSelectedSides((current) => current.includes(name) ? current.filter((item) => item !== name) : current.length < 2 ? [...current, name] : current);
+  const toggleStarter = (id: string) => setSelectedStarters((current) => current.includes(id) ? current.filter((item) => item !== id) : [...current, id]);
+  const changeDessert = (id: string, amount: number) => setDessertQty((current) => ({ ...current, [id]: Math.max(0, (current[id] ?? 0) + amount) }));
 
-  async function recalculate() {
+  const whatsapp = encodeURIComponent(`Hola R&J, deseo confirmar una reserva. Salón: ${salon.name} - ${salon.place}. Fecha: ${date || "por confirmar"}. Invitados: ${guests}. Total estimado: ${crc(total)}.`);
+  async function saveQuote() {
     setLoading(true);
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000"}/api/v1/quotes/calculate`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data: QuoteResponse = await response.json();
-      setQuote(data);
-    } finally {
-      setLoading(false);
-    }
+    try { const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000"}/api/v1/quotes/send-pdf`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ customer_name: customerName || undefined, customer_email: customerEmail || undefined, guests, package_id: foodId, addons: { entradas: selectedStarters.length > 0, postres: dessertCount > 0, dj: false, fotocabina: false } }) }); if (!response.ok) throw new Error("No fue posible guardar la cotización."); alert("Cotización guardada y enviada para revisión."); } catch (error) { alert(error instanceof Error ? error.message : "No fue posible guardar la cotización."); } finally { setLoading(false); }
   }
 
-  async function sendPdf() {
-    await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000"}/api/v1/quotes/send-pdf`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-    alert("Cotización enviada por correo (simulación).\nRevisa configuración SMTP en backend.");
-  }
+  return <div className="space-y-8 pb-24">
+    <header className="flex flex-col gap-4 border-b border-emerald/10 pb-7 sm:flex-row sm:items-end sm:justify-between"><div><p className="eyebrow">R&J Catering House · El Asador</p><h1 className="mt-3 font-display text-4xl text-emerald sm:text-6xl">Momentos que se sirven<br /><span className="text-gold">con estilo.</span></h1><p className="mt-3 max-w-xl text-sm leading-6 text-ink/60">Configura tu evento en cuatro pasos y recibe una estimación clara, elegante y en tiempo real.</p></div><Link href="/" className="text-sm font-bold text-emerald hover:text-gold">Volver al inicio</Link></header>
+    <nav className="grid grid-cols-4 gap-2">{["Datos y salón", "Menú El Asador", "Detalles", "Resumen"].map((label, index) => <button key={label} type="button" onClick={() => setStep(index + 1)} className={`rounded-xl p-3 text-left text-xs font-bold ${step === index + 1 ? "bg-emerald text-white" : "bg-white text-ink/45 shadow-sm"}`}><span className="block text-[10px] text-gold">0{index + 1}</span>{label}</button>)}</nav>
+    <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
+      <main className="space-y-6">
+        {step === 1 && <section className="space-y-6 rounded-2xl bg-white p-6 shadow-md sm:p-8"><div><p className="eyebrow">Paso 1</p><h2 className="section-title">Datos y capacidad</h2></div><div className="grid gap-4 sm:grid-cols-3"><label className="field-label">Fecha<input className="input-luxury" type="date" value={date} onChange={(e) => setDate(e.target.value)} /></label><label className="field-label">Hora inicio<input className="input-luxury" type="time" value={start} onChange={(e) => setStart(e.target.value)} /></label><label className="field-label">Hora fin<input className="input-luxury" type="time" value={end} onChange={(e) => setEnd(e.target.value)} /></label></div><p className="text-xs text-ink/45">Duración: {duration(start, end)} · Invitados permitidos: {salon.maxGuests}</p><label className="field-label block max-w-xs">Número de invitados<input className="input-luxury" type="number" min={60} max={salon.maxGuests} value={guests} onChange={(e) => setGuests(Math.max(60, Math.min(salon.maxGuests, Number(e.target.value) || 60)))} /></label><div><p className="mb-3 text-sm font-bold text-emerald">Selecciona tu salón</p><div className="grid gap-4 md:grid-cols-3">{salons.map((item) => <button type="button" key={item.id} onClick={() => setSalon(item.id)} className={`overflow-hidden rounded-2xl bg-cream text-left shadow-sm ${salonId === item.id ? "ring-2 ring-gold" : ""}`}><img src={item.image} alt="" className="h-28 w-full object-cover" /><div className="p-4"><h3 className="font-display text-xl text-emerald">{item.name}</h3><p className="text-xs font-bold text-gold">{item.place}</p><p className="mt-2 text-xs text-ink/55">{item.description}</p><strong className="mt-3 block text-xs text-emerald">{item.perPerson ? `${crc(item.perPerson)} por persona` : `${crc(item.fee)} alquiler`}</strong></div></button>)}</div></div><div className="flex items-center justify-between rounded-xl bg-cream p-4"><span className="text-sm font-bold text-emerald">¿Desea la piscina en uso durante la fiesta?</span><div className="flex gap-2">{(["yes", "no"] as const).map((value) => <button key={value} type="button" onClick={() => { setPool(value); if (value === "yes" && salonId === "tecal") setExperienceId("emerald"); }} className={`rounded-full px-4 py-2 text-xs font-bold uppercase ${pool === value ? "bg-emerald text-white" : "bg-white text-emerald"}`}>{value === "yes" ? "Sí" : "No"}</button>)}</div></div><div className="grid gap-3 md:grid-cols-3">{experiences.map((item) => { const disabled = guests > item.max; return <button type="button" disabled={disabled} key={item.id} onClick={() => setExperienceId(item.id)} className={`rounded-xl border p-4 text-left ${experienceId === item.id ? "border-gold bg-gold/10" : "border-ink/10"} ${disabled ? "cursor-not-allowed opacity-40" : ""}`}><strong className="font-display text-lg text-emerald">{item.name}</strong><small className="mt-1 block text-xs text-ink/50">Hasta {item.max} personas</small><p className="mt-2 text-xs text-ink/55">{disabled ? "Supera la capacidad de este paquete." : item.description}</p></button>; })}</div></section>}
 
-  const whatsappText = encodeURIComponent(
-    `Hola, deseo reservar con R&J Catering House. Invitados: ${guests}. Paquete: #${packageId}. Extras: ${Object.entries(addons)
-      .filter(([, selected]) => selected)
-      .map(([name]) => name)
-      .join(", ") || "ninguno"}. Total estimado: ${quote ? formatCRC(quote.total) : "por calcular"}.`,
-  );
+        {step === 2 && <section className="space-y-7 rounded-2xl bg-white p-6 shadow-md sm:p-8"><div><p className="eyebrow">Paso 2</p><h2 className="section-title">Menú de alimentación El Asador</h2></div><div className="grid gap-4 sm:grid-cols-2">{foods.map((item) => <button key={item.id} type="button" onClick={() => setFoodId(item.id)} className={`overflow-hidden rounded-2xl text-left shadow-sm ${foodId === item.id ? "ring-2 ring-gold" : ""}`}><img src={item.image} alt={item.name} className="h-36 w-full object-cover" /><div className="p-4"><div className="flex justify-between gap-3"><h3 className="font-display text-xl text-emerald">{item.name}</h3><b className="text-sm text-gold">{crc(item.price)}</b></div><p className="mt-1 text-xs text-ink/55">{item.description}</p><small className="mt-3 block text-[10px] uppercase tracking-widest text-ink/40">Por persona</small></div></button>)}</div><div><div className="flex justify-between"><h3 className="font-display text-2xl text-emerald">Acompañamientos</h3><span className="text-xs font-bold text-gold">{selectedSides.length}/2</span></div><p className="mt-1 text-xs text-ink/50">Selecciona exactamente 2 sin costo extra.</p><div className="mt-3 grid gap-2 sm:grid-cols-2">{accompaniments.map((item) => <button key={item} type="button" onClick={() => toggleSide(item)} className={`rounded-xl border p-3 text-left text-sm ${selectedSides.includes(item) ? "border-emerald bg-emerald/5 text-emerald" : "border-ink/10"}`}>{selectedSides.includes(item) ? "✓ " : ""}{item}</button>)}</div></div><div><h3 className="font-display text-2xl text-emerald">Mesa de postres incluida</h3><div className="mt-3 space-y-2">{desserts.map((item) => <div key={item.id} className="flex items-center gap-3 rounded-xl bg-cream p-3"><img src={item.image} alt="" className="h-12 w-12 rounded-lg object-cover" /><span className="flex-1 text-sm text-ink/75">{item.name}</span><button type="button" onClick={() => changeDessert(item.id, -1)} className="round-control">−</button><b>{dessertQty[item.id] ?? 0}</b><button type="button" onClick={() => changeDessert(item.id, 1)} className="round-control filled">+</button></div>)}</div></div><div><h3 className="font-display text-2xl text-emerald">Entradas opcionales · ₡2.000 / persona</h3><div className="mt-3 grid gap-2 sm:grid-cols-2">{starters.map((item) => <button type="button" key={item.id} onClick={() => toggleStarter(item.id)} className={`flex items-center gap-3 rounded-xl border p-3 text-left text-sm ${selectedStarters.includes(item.id) ? "border-gold bg-gold/10" : "border-ink/10"}`}><img src={item.image} alt="" className="h-10 w-10 rounded-lg object-cover" /><span className="flex-1">{item.name}</span><b>{selectedStarters.includes(item.id) ? "✓" : "+"}</b></button>)}</div></div></section>}
 
-  return (
-    <section className="grid gap-8 md:grid-cols-[1fr_360px]">
-      <div className="space-y-6 rounded-lg bg-white p-6 shadow">
-        <h1 className="text-3xl font-bold">Cotizador en línea</h1>
+        {step === 3 && <section className="space-y-7 rounded-2xl bg-white p-6 shadow-md sm:p-8"><div><p className="eyebrow">Paso 3</p><h2 className="section-title">Decoración, coctelería y pastel</h2></div><div className="grid gap-4 sm:grid-cols-2"><label className="field-label">Estilo de decoración<select className="input-luxury" value={decoration} onChange={(e) => setDecoration(e.target.value)}>{["Rústico Chic", "Romántico Elegante", "Minimalista Dorado", "Tropical VIP"].map((item) => <option key={item}>{item}</option>)}</select></label><label className="field-label">Centro de mesa<select className="input-luxury" value={centerpiece} onChange={(e) => setCenterpiece(e.target.value)}>{["Florales altos", "Bases con velas", "Arreglos naturales"].map((item) => <option key={item}>{item}</option>)}</select></label></div><div><h3 className="font-display text-2xl text-emerald">Cóctel de bienvenida</h3><p className="mt-1 text-xs text-gold">{experienceId === "emerald" ? "Incluido de cortesía · ₡0" : "Opcional según selección"}</p><div className="mt-3 grid gap-2 sm:grid-cols-4">{[["none", "Sin cóctel", 0], ["margarita", "Margarita", 3000], ["gin", "Gin Tonic", 2000], ["primavera", "Primavera sin alcohol", 1500]].map(([id, name, price]) => <button type="button" key={id} onClick={() => setCocktail(String(id))} className={`rounded-xl border p-3 text-left text-xs ${cocktail === id ? "border-gold bg-gold/10" : "border-ink/10"}`}><b className="block">{name}</b><span>{experienceId === "emerald" && id !== "none" ? "₡0 incluido" : price ? `${crc(Number(price))} / pers.` : "₡0"}</span></button>)}</div></div><label className="field-label block rounded-xl bg-cream p-5">Pastel de bodas / evento · INCLUIDO EN EL PAQUETE (₡0)<input className="input-luxury bg-white" type="file" accept="image/*" /><small className="mt-2 block normal-case tracking-normal text-ink/45">Adjunta una foto de referencia de tu pastel soñado.</small></label></section>}
 
-        {step === 1 && (
-          <div className="space-y-4">
-            <label className="block text-sm font-medium">Cantidad de invitados (60-150)</label>
-            <input
-              className="w-full rounded border border-graphite-lightGray px-3 py-2"
-              type="number"
-              min={60}
-              max={150}
-              value={guests}
-              onChange={(event) => setGuests(Math.max(60, Math.min(150, Number(event.target.value))))}
-            />
-          </div>
-        )}
+        {step === 4 && <section className="space-y-6 rounded-2xl bg-white p-6 shadow-md sm:p-8"><div><p className="eyebrow">Paso 4</p><h2 className="section-title">Resumen y confirmación</h2></div><div className="grid gap-4 sm:grid-cols-2"><label className="field-label">Nombre<input className="input-luxury" value={customerName} onChange={(e) => setCustomerName(e.target.value)} /></label><label className="field-label">Correo electrónico<input className="input-luxury" type="email" value={customerEmail} onChange={(e) => setCustomerEmail(e.target.value)} /></label></div><div className="rounded-2xl bg-cream p-5"><h3 className="font-display text-2xl text-emerald">{salon.name} · {salon.place}</h3><p className="mt-2 text-sm text-ink/60">{date || "Fecha por confirmar"} · {guests} invitados · {duration(start, end)}</p><p className="mt-4 text-sm font-bold text-emerald">Tu evento incluye {waiters} saloneros dedicados.</p><ul className="mt-4 space-y-2 text-sm text-ink/65">{included.map((item) => <li key={item} className="flex justify-between border-b border-ink/10 pb-2"><span>{item}</span><b className="text-gold">INCLUIDO</b></li>)}</ul></div></section>}
 
-        {step === 2 && (
-          <div className="space-y-4">
-            <p className="text-sm font-medium">Selecciona paquete base</p>
-            <div className="grid gap-3">
-              {PACKAGE_OPTIONS.map((option) => (
-                <button
-                  key={option.id}
-                  type="button"
-                  className={`rounded border px-4 py-3 text-left ${packageId === option.id ? "border-graphite-mutedOlive bg-graphite-paleBeige" : "border-graphite-lightGray"}`}
-                  onClick={() => setPackageId(option.id)}
-                >
-                  <p className="font-semibold">{option.label}</p>
-                  <p className="text-sm text-graphite-grayBlue">{formatCRC(option.price)} por persona</p>
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {step === 3 && (
-          <div className="space-y-4">
-            <p className="text-sm font-medium">Selecciona extras</p>
-            {(Object.keys(addons) as Array<keyof Addons>).map((addon) => (
-              <label key={addon} className="flex items-center gap-3 rounded border border-graphite-lightGray px-3 py-2">
-                <input
-                  type="checkbox"
-                  checked={addons[addon]}
-                  onChange={(event) => setAddons((prev) => ({ ...prev, [addon]: event.target.checked }))}
-                />
-                <span>{EXTRA_LABELS[addon]}</span>
-              </label>
-            ))}
-          </div>
-        )}
-
-        {step === 4 && (
-          <div className="space-y-4">
-            <label className="block text-sm font-medium">Nombre</label>
-            <input
-              className="w-full rounded border border-graphite-lightGray px-3 py-2"
-              value={customerName}
-              onChange={(event) => setCustomerName(event.target.value)}
-              placeholder="Nombre completo"
-            />
-            <label className="block text-sm font-medium">Correo electrónico</label>
-            <input
-              className="w-full rounded border border-graphite-lightGray px-3 py-2"
-              type="email"
-              value={customerEmail}
-              onChange={(event) => setCustomerEmail(event.target.value)}
-              placeholder="correo@ejemplo.com"
-            />
-          </div>
-        )}
-
-        <div className="flex gap-3">
-          <button
-            type="button"
-            onClick={() => setStep((prev) => Math.max(1, prev - 1))}
-            className="rounded border border-graphite-lightGray px-4 py-2"
-            disabled={step === 1}
-          >
-            Anterior
-          </button>
-          {step < 4 ? (
-            <button
-              type="button"
-              onClick={() => setStep((prev) => Math.min(4, prev + 1))}
-              className="rounded bg-graphite-mutedOlive px-4 py-2 text-white"
-            >
-              Siguiente
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={recalculate}
-              className="rounded bg-graphite-mutedOlive px-4 py-2 text-white"
-              disabled={loading}
-            >
-              {loading ? "Calculando..." : "Calcular cotización"}
-            </button>
-          )}
-        </div>
-      </div>
-
-      <aside className="space-y-4 rounded-lg bg-white p-6 shadow">
-        <h2 className="text-xl font-semibold">Desglose en tiempo real</h2>
-        {!quote && <p className="text-sm text-graphite-grayBlue">Completa el flujo y calcula para ver el total exacto.</p>}
-        {quote && (
-          <>
-            <ul className="space-y-2 text-sm">
-              {quote.breakdown.map((item) => (
-                <li key={item.concept} className="flex justify-between gap-2">
-                  <span>{item.concept}</span>
-                  <span>{formatCRC(Number(item.amount))}</span>
-                </li>
-              ))}
-            </ul>
-            <div className="border-t border-graphite-lightGray pt-3">
-              <p className="flex justify-between text-sm">
-                <span>Extras</span>
-                <span>{formatCRC(Number(quote.extras_total))}</span>
-              </p>
-              <p className="mt-2 flex justify-between text-lg font-bold">
-                <span>Total</span>
-                <span>{formatCRC(Number(quote.total))}</span>
-              </p>
-            </div>
-
-            <div className="space-y-2 pt-2">
-              <a
-                href={`https://api.whatsapp.com/send?phone=50600000000&text=${whatsappText}`}
-                target="_blank"
-                rel="noreferrer"
-                className="block rounded bg-graphite-grayBlue px-4 py-2 text-center text-white"
-              >
-                Continuar por WhatsApp
-              </a>
-              <button
-                type="button"
-                onClick={sendPdf}
-                disabled={!customerEmail}
-                className="w-full rounded bg-graphite-palePink px-4 py-2 text-graphite-mutedOlive disabled:opacity-50"
-              >
-                Enviar cotización PDF al correo
-              </button>
-            </div>
-          </>
-        )}
-      </aside>
-    </section>
-  );
+        <div className="flex justify-between"><button type="button" disabled={step === 1} onClick={() => setStep(step - 1)} className="rounded-xl border border-ink/10 px-5 py-3 text-sm font-bold text-emerald disabled:opacity-30">Atrás</button>{step < 4 ? <button type="button" onClick={() => setStep(step + 1)} disabled={step === 2 && selectedSides.length !== 2} className="rounded-xl bg-emerald px-6 py-3 text-sm font-bold text-white disabled:opacity-40">Continuar</button> : null}</div>
+      </main>
+      <aside className="lg:sticky lg:top-6"><div className="overflow-hidden rounded-3xl bg-white shadow-lg"><div className="bg-emerald p-6 text-white"><p className="text-xs font-bold uppercase tracking-widest text-gold">Resumen en vivo</p><h2 className="mt-2 font-display text-3xl">Tu cotización</h2><p className="mt-3 text-sm text-white/70">{salon.name} · {guests} personas</p></div><div className="space-y-4 p-6 text-sm"><div className="flex justify-between"><span className="text-ink/55">Salón</span><b className="text-emerald">{salon.perPerson ? `${crc(salon.perPerson)} / pers.` : crc(salon.fee)}</b></div><div className="flex justify-between"><span className="text-ink/55">Alimentos y adicionales</span><b className="text-emerald">{crc(foodPerPerson * guests)}</b></div>{dessertCount > 0 && <div className="flex justify-between"><span className="text-ink/55">Postres · {dessertCount} porciones</span><b className="text-emerald">{crc(dessertTotal)}</b></div>}<div className="border-t border-ink/10 pt-4"><div className="flex items-end justify-between"><span className="text-xs uppercase tracking-wider text-ink/45">Total general</span><strong className="font-display text-3xl text-gold">{crc(total)}</strong></div><p className="mt-1 text-right text-xs text-ink/45">{crc(total / guests)} por persona</p></div>{step === 4 && <><button type="button" disabled={loading || !customerEmail} onClick={saveQuote} className="w-full rounded-xl bg-gold px-4 py-3 text-sm font-bold text-white disabled:opacity-40">{loading ? "Guardando..." : "Guardar cotización en espera"}</button><a className="block w-full rounded-xl border border-emerald px-4 py-3 text-center text-sm font-bold text-emerald" href={`https://api.whatsapp.com/send?phone=50600000000&text=${whatsapp}`}>Confirmar reserva y contactar Wedding Planner</a></>}</div></div></aside>
+    </div>
+  </div>;
 }

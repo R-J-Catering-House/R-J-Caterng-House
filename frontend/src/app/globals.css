@@ -2,6 +2,102 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply bg-graphite-paleBeige text-graphite-mutedOlive;
+@layer base {
+  :root {
+    --cream: #f8f5ef;
+    --marfil: #f8f5ef;
+    --burgundy: #5b2432;
+    --gold: #c2a16a;
+    --ink: #201c1a;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    @apply bg-cream text-ink antialiased;
+    background-image: radial-gradient(circle at 10% 0%, rgba(194, 161, 106, 0.08), transparent 24rem);
+  }
+}
+
+@layer components {
+  .eyebrow {
+    @apply text-[10px] font-bold uppercase tracking-[0.24em] text-gold;
+  }
+
+  .section-title {
+    @apply mt-1 text-3xl text-emerald;
+    font-family: var(--font-display), Georgia, serif;
+    letter-spacing: -0.02em;
+  }
+
+  .input-luxury {
+    @apply mt-2 w-full rounded-xl border border-ink/10 bg-cream px-4 py-3 text-sm font-normal normal-case tracking-normal text-ink outline-none transition placeholder:text-ink/30 focus:border-gold;
+  }
+
+  .field-label {
+    @apply text-xs font-bold uppercase tracking-wider text-ink/50;
+  }
+
+  .field-label > span {
+    @apply flex items-center gap-2;
+  }
+
+  .location-card,
+  .reference-card {
+    @apply flex items-center gap-3 rounded-xl border border-ink/10 bg-cream p-4 text-left text-emerald transition hover:border-gold;
+  }
+
+  .location-card.selected,
+  .reference-card.selected {
+    @apply border-emerald bg-emerald/5;
+  }
+
+  .location-card > span,
+  .reference-card > span {
+    @apply flex-1;
+  }
+
+  .location-card strong,
+  .reference-card strong {
+    @apply block text-xs text-ink/80;
+  }
+
+  .location-card small,
+  .reference-card small {
+    @apply mt-1 block text-[10px] font-normal text-ink/45;
+  }
+
+  .toggle {
+    @apply relative h-6 w-11 rounded-full bg-ink/15 transition;
+  }
+
+  .toggle span {
+    @apply absolute left-1 top-1 h-4 w-4 rounded-full bg-white transition;
+  }
+
+  .toggle.active {
+    @apply bg-emerald;
+  }
+
+  .toggle.active span {
+    @apply translate-x-5;
+  }
+
+  .round-control {
+    @apply flex h-7 w-7 items-center justify-center rounded-full bg-white text-lg text-emerald;
+  }
+
+  .round-control.filled {
+    @apply bg-emerald text-white;
+  }
+
+  .luxury-divider {
+    @apply mx-auto h-px w-20 bg-gold/60;
+  }
+
+  .luxury-kicker {
+    @apply text-[9px] uppercase tracking-[0.35em] text-gold;
+  }
 }
