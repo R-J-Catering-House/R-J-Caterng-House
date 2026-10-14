@@ -3,15 +3,18 @@ from sqlalchemy.orm import Session
 
 from app.core.security import get_current_user
 from app.db.database import get_db
-from app.models.models import Addon, Package, Quote, User
+from app.models.models import Addon, EventPhoto, Package, Quote, Review, User
 from app.schemas.admin import (
     AddonCreate,
     AddonRead,
     AddonUpdate,
+    EventPhotoCreate,
+    EventPhotoRead,
     PackageCreate,
     PackageRead,
     PackageUpdate,
     QuoteRead,
+    ReviewRead,
 )
 
 router = APIRouter(prefix="/admin")
@@ -96,3 +99,33 @@ def delete_addon(addon_id: int, db: Session = Depends(get_db), _: User = Depends
 @router.get("/quotes", response_model=list[QuoteRead])
 def list_quotes(db: Session = Depends(get_db), _: User = Depends(get_current_user)):
     return db.query(Quote).order_by(Quote.created_at.desc()).all()
+
+
+@router.get("/photos", response_model=list[EventPhotoRead])
+def list_photos(db: Session = Depends(get_db), _: User = Depends(get_current_user)):
+    return db.query(EventPhoto).order_by(EventPhoto.created_at.desc()).all()
+
+
+@router.post("/photos", response_model=EventPhotoRead, status_code=status.HTTP_201_CREATED)
+def create_photo(payload: EventPhotoCreate, db: Session = Depends(get_db), _: User = Depends(get_current_user)):
+    photo = EventPhoto(**payload.model_dump())
+    db.add(photo)
+    db.commit()
+    db.refresh(photo)
+    return photo
+
+
+@router.get("/reviews", response_model=list[ReviewRead])
+def list_reviews(db: Session = Depends(get_db), _: User = Depends(get_current_user)):
+    return db.query(Review).order_by(Review.created_at.desc()).all()
+
+
+@router.put("/reviews/{review_id}/approve", response_model=ReviewRead)
+def approve_review(review_id: int, db: Session = Depends(get_db), _: User = Depends(get_current_user)):
+    review = db.query(Review).filter(Review.id == review_id).first()
+    if not review:
+        raise HTTPException(status_code=404, detail="Reseña no encontrada")
+    review.approved = True
+    db.commit()
+    db.refresh(review)
+    return review

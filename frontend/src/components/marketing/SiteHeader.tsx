@@ -11,6 +11,7 @@ export default function SiteHeader() {
         <Link href="/">Inicio</Link>
         <Link href="/galeria">Galería</Link>
         <Link href="/servicios">Servicios</Link>
+        <Link href="/resenas">Reseñas</Link>
         <Link href="/cotizador">Cotizar con nosotros</Link>
       </nav>
       <Link href="/admin" className="rounded-full border border-gold px-4 py-2 text-xs font-bold text-emerald transition hover:bg-emerald hover:text-white">

@@ -58,3 +58,26 @@ class QuoteRead(BaseModel):
     created_at: datetime
 
     model_config = {"from_attributes": True}
+
+
+class EventPhotoCreate(BaseModel):
+    title: str = Field(min_length=2, max_length=120)
+    image_url: str = Field(min_length=10)
+
+
+class EventPhotoRead(EventPhotoCreate):
+    id: int
+    created_at: datetime
+
+    model_config = {"from_attributes": True}
+
+
+class ReviewRead(BaseModel):
+    id: int
+    customer_name: str
+    rating: int
+    comment: str
+    approved: bool
+    created_at: datetime
+
+    model_config = {"from_attributes": True}
