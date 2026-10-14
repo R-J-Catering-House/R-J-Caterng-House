@@ -1,10 +1,10 @@
 import Link from "next/link";
 
 const galleryImages = [
-  ["Recepción al atardecer", "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1000&q=85"],
-  ["Mesa de celebración", "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1000&q=85"],
-  ["Detalles que emocionan", "https://images.unsplash.com/photo-1478146896981-b80fe463b330?auto=format&fit=crop&w=1000&q=85"],
-  ["Una experiencia para compartir", "https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=1000&q=85"],
+  ["El Asador · General Viejo", "/images/salon-asador.png"],
+  ["El Tecal · Uvita", "/images/salon-tecal.png"],
+  ["La Corteza · Pérez Zeledón", "/images/salon-corteza.png"],
+  ["Paquetes R&J", "/images/paquetes-vip.png"],
 ];
 
 const services = [
@@ -60,7 +60,7 @@ export function WhyUs() {
   return (
     <section className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
       <div className="relative min-h-[360px] overflow-hidden rounded-3xl">
-        <img src="https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&w=1000&q=85" alt="Celebración elegante organizada por R&J Catering House" className="absolute inset-0 h-full w-full object-cover" />
+        <img src="/images/salon-asador.png" alt="Celebración elegante organizada por R&J Catering House" className="absolute inset-0 h-full w-full object-cover" />
       </div>
       <div>
         <p className="eyebrow">Por qué elegirnos</p>

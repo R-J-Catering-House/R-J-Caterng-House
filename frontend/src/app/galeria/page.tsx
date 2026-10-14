@@ -3,12 +3,12 @@ import Link from "next/link";
 import SiteHeader from "@/components/marketing/SiteHeader";
 
 const images = [
-  ["El Tecal · Uvita", "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1200&q=85"],
-  ["El Asador · General Viejo", "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1200&q=85"],
-  ["La Corteza · Pérez Zeledón", "https://images.unsplash.com/photo-1478146896981-b80fe463b330?auto=format&fit=crop&w=1200&q=85"],
-  ["Mesa de bienvenida", "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1200&q=85"],
-  ["Detalles florales", "https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&w=1200&q=85"],
-  ["Celebración R&J", "https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=1200&q=85"],
+  ["El Tecal · Uvita", "/images/salon-tecal.png"],
+  ["El Asador · General Viejo", "/images/salon-asador.png"],
+  ["La Corteza · Pérez Zeledón", "/images/salon-corteza.png"],
+  ["Paquetes R&J", "/images/paquetes-vip.png"],
+  ["Detalles de una celebración", "/images/salon-asador.png"],
+  ["Celebración R&J", "/images/salon-corteza.png"],
 ];
 
 export default function GalleryPage() {

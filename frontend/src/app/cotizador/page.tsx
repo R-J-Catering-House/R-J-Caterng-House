@@ -8,9 +8,9 @@ type Food = { id: number; name: string; description: string; price: number; imag
 type Option = { id: string; name: string; price: number; image: string };
 
 const salons: Salon[] = [
-  { id: "tecal", name: "El Tecal", place: "Uvita", description: "Un espacio tropical con acceso a una experiencia costera memorable.", fee: 0, perPerson: 14000, maxGuests: 800, image: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=900&q=85" },
-  { id: "asador", name: "El Asador", place: "General Viejo", description: "La casa de R&J para celebrar con sabor, calidez y servicio cercano.", fee: 150000, perPerson: 0, maxGuests: 150, image: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=900&q=85" },
-  { id: "corteza", name: "La Corteza", place: "Palmares · Pérez Zeledón", description: "Un entorno íntimo y elegante para reuniones especiales.", fee: 80000, perPerson: 0, maxGuests: 150, image: "https://images.unsplash.com/photo-1478146896981-b80fe463b330?auto=format&fit=crop&w=900&q=85" },
+  { id: "tecal", name: "El Tecal", place: "Uvita", description: "Un espacio tropical con acceso a una experiencia costera memorable.", fee: 0, perPerson: 14000, maxGuests: 800, image: "/images/salon-tecal.png" },
+  { id: "asador", name: "El Asador", place: "General Viejo", description: "La casa de R&J para celebrar con sabor, calidez y servicio cercano.", fee: 150000, perPerson: 0, maxGuests: 150, image: "/images/salon-asador.png" },
+  { id: "corteza", name: "La Corteza", place: "Palmares · Pérez Zeledón", description: "Un entorno íntimo y elegante para reuniones especiales.", fee: 80000, perPerson: 0, maxGuests: 150, image: "/images/salon-corteza.png" },
 ];
 const experiences = [
   { id: "silver", name: "Plata / Esencial", max: 80, description: "Montaje ágil y refinado para eventos íntimos o corporativos." },
@@ -18,11 +18,11 @@ const experiences = [
   { id: "emerald", name: "Esmeralda VIP", max: 800, description: "Villa, piscina, cóctel de bienvenida, atención VIP y coordinación dedicada." },
 ];
 const foods: Food[] = [
-  { id: 1, name: "Mano de piedra", description: "En salsa demiglace y hongos.", price: 11000, image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=85" },
-  { id: 2, name: "Pechuga a la parrilla", description: "En salsa Alfredo de hongos.", price: 12500, image: "https://images.unsplash.com/photo-1532550907401-a500c9a57435?auto=format&fit=crop&w=800&q=85" },
-  { id: 3, name: "Cordon Bleu", description: "En salsa Alfredo de hongos.", price: 14000, image: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=85" },
-  { id: 4, name: "Costilla de cerdo", description: "En BBQ de manzana.", price: 12000, image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=85" },
-  { id: 5, name: "NY Steak", description: "300 g importado con chimichurri.", price: 16500, image: "https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=800&q=85" },
+  { id: 1, name: "Mano de piedra", description: "En salsa demiglace y hongos.", price: 11000, image: "/images/paquetes-vip.png" },
+  { id: 2, name: "Pechuga a la parrilla", description: "En salsa Alfredo de hongos.", price: 12500, image: "/images/salon-asador.png" },
+  { id: 3, name: "Cordon Bleu", description: "En salsa Alfredo de hongos.", price: 14000, image: "/images/paquetes-vip.png" },
+  { id: 4, name: "Costilla de cerdo", description: "En BBQ de manzana.", price: 12000, image: "/images/salon-tecal.png" },
+  { id: 5, name: "NY Steak", description: "300 g importado con chimichurri.", price: 16500, image: "/images/salon-asador.png" },
 ];
 const accompaniments = ["Puré de papas", "Papas rostizadas", "Arroz con almendras", "Ensalada verde", "Vegetales a la parrilla"];
 const desserts: Option[] = [
