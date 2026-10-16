@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={`${display.variable} ${sans.variable} min-h-screen font-sans`}>
-        <main className="mx-auto max-w-7xl px-4 py-8 sm:px-8 sm:py-12">{children}</main>
+        <main>{children}</main>
       </body>
     </html>
   );

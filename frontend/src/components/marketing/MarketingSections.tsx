@@ -15,7 +15,7 @@ const services = [
 
 export function GalleryPreview() {
   return (
-    <section id="galeria" className="space-y-6">
+    <section id="galeria" className="mx-auto max-w-7xl space-y-6 px-5 sm:px-10">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="eyebrow">Galería R&J</p>
@@ -37,7 +37,7 @@ export function GalleryPreview() {
 
 export function ServicesPreview() {
   return (
-    <section id="servicios" className="rounded-3xl bg-emerald p-7 text-white shadow-lg sm:p-10">
+    <section id="servicios" className="bg-emerald px-5 py-20 text-white shadow-lg sm:px-10">
       <div className="max-w-2xl">
         <p className="eyebrow text-gold">Lo que hacemos</p>
         <h2 className="mt-2 font-display text-4xl">Más que un menú: creamos la atmósfera.</h2>
@@ -56,6 +56,33 @@ export function ServicesPreview() {
   );
 }
 
+export function PackagesPreview() {
+  const packages = [
+    ["Paquete Plata", "Una propuesta elegante y flexible para celebrar a tu manera.", "Precio por evento · Por definir"],
+    ["Paquete Dorado", "Una experiencia completa con gastronomía, montaje y atención dedicada.", "Precio por evento · Por definir"],
+    ["Paquete Esmeralda VIP", "Cóctel de bienvenida, barra libre de bebidas, ambientación de piscina, mesas de lujo y mesa de postres gourmet.", "₡2,800,000 por evento"],
+  ];
+
+  return (
+    <section id="paquetes" className="mx-auto max-w-7xl px-5 py-20 sm:px-10">
+      <div className="mx-auto max-w-2xl text-center"><p className="eyebrow">Paquetes R&amp;J</p><h2 className="section-title text-5xl">Elige la experiencia para tu evento</h2><p className="mt-4 text-sm leading-7 text-ink/60">Cada propuesta se adapta a la celebración que tienes en mente.</p></div>
+      <div className="mt-10 grid gap-5 lg:grid-cols-3">
+        {packages.map(([name, description, price], index) => <article key={name} className={`rounded-3xl p-7 ${index === 2 ? "bg-burgundy text-white" : "border border-burgundy/15 bg-white/70 text-ink"}`}>
+          <span className={`text-xs font-bold ${index === 2 ? "text-pink" : "text-burgundy"}`}>0{index + 1}</span>
+          <h3 className="mt-10 font-display text-4xl">{name}</h3>
+          <p className={`mt-4 min-h-20 text-sm leading-6 ${index === 2 ? "text-white/75" : "text-ink/60"}`}>{description}</p>
+          <p className={`mt-8 border-t pt-5 text-sm font-bold ${index === 2 ? "border-white/20 text-pink" : "border-burgundy/15 text-burgundy"}`}>{price}</p>
+        </article>)}
+      </div>
+    </section>
+  );
+}
+
+export function ExtraServices() {
+  const extras = ["Mesa de postres adicional", "Coctelería personalizada", "Garzones VIP", "Cristalería fina"];
+  return <section id="servicios-extra" className="bg-pink/45 px-5 py-20 sm:px-10"><div className="mx-auto max-w-7xl"><p className="eyebrow">A tu medida</p><h2 className="section-title text-5xl">Servicios Extra</h2><div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">{extras.map((extra) => <div key={extra} className="rounded-2xl border border-burgundy/15 bg-white/60 p-5 text-center font-display text-2xl text-burgundy">{extra}</div>)}</div></div></section>;
+}
+
 export function WhyUs() {
   return (
     <section className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
@@ -70,7 +97,26 @@ export function WhyUs() {
             <div key={item} className="flex gap-3 text-sm leading-6 text-ink/65"><span className="mt-1 text-gold">✦</span>{item}</div>
           ))}
         </div>
-        <Link href="/cotizador" className="mt-8 inline-flex rounded-xl bg-gold px-6 py-3 text-sm font-bold text-white shadow-md transition hover:bg-gold/90">Cotiza con nosotros</Link>
+      </div>
+    </section>
+  );
+}
+
+export function AboutUs() {
+  return (
+    <section id="sobre-nosotras" className="mx-auto grid max-w-7xl gap-8 px-5 py-10 lg:grid-cols-2 lg:items-center sm:px-10">
+      <div className="relative min-h-[380px] overflow-hidden rounded-2xl">
+        <img src="/images/salon-corteza.png" alt="Rachel y Jimena creando una experiencia para sus clientes" className="absolute inset-0 h-full w-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-t from-burgundy/40 to-transparent" />
+      </div>
+      <div className="max-w-xl">
+        <p className="eyebrow">Sobre nosotras</p>
+        <h2 className="mt-2 font-display text-5xl leading-none text-burgundy sm:text-6xl">Hola, somos Rachel y Jimena</h2>
+        <div className="mt-7 space-y-5 text-sm leading-7 text-ink/65">
+          <p>Nuestros nombres son Rachel y Jimena, somos mejores amigas y socias apasionadas por la gastronomía.</p>
+          <p><strong className="font-bold text-burgundy">Nuestra historia comienza con una amistad</strong> y el amor compartido por crear momentos inolvidables alrededor de la mesa. Decidimos unir nuestros talentos para dar vida a R&amp;J Catering House.</p>
+          <p><strong className="font-bold text-burgundy">Creemos en los detalles.</strong> Nos especializamos en diseñar experiencias culinarias únicas, asegurándonos de que cada evento refleje la misma dedicación y cariño que le ponemos a nuestra propia mesa.</p>
+        </div>
       </div>
     </section>
   );

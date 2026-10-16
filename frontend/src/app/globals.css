@@ -6,9 +6,10 @@
   :root {
     --cream: #f8f5ef;
     --marfil: #f8f5ef;
-    --burgundy: #5b2432;
-    --gold: #c2a16a;
-    --ink: #201c1a;
+    --burgundy: #581825;
+    --pink: #d8b4b8;
+    --gold: #d8b4b8;
+    --ink: #2d2d2d;
   }
 
   * {
@@ -18,6 +19,11 @@
   body {
     @apply bg-cream text-ink antialiased;
     background-image: radial-gradient(circle at 10% 0%, rgba(194, 161, 106, 0.08), transparent 24rem);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
   }
 }
 
@@ -99,5 +105,9 @@
 
   .luxury-kicker {
     @apply text-[9px] uppercase tracking-[0.35em] text-gold;
+  }
+
+  .footer-wave {
+    clip-path: polygon(0 3%, 2% 2%, 4% 3%, 6% 2%, 8% 3%, 10% 2%, 12% 3%, 14% 2%, 16% 3%, 18% 2%, 20% 3%, 22% 2%, 24% 3%, 26% 2%, 28% 3%, 30% 2%, 32% 3%, 34% 2%, 36% 3%, 38% 2%, 40% 3%, 42% 2%, 44% 3%, 46% 2%, 48% 3%, 50% 2%, 52% 3%, 54% 2%, 56% 3%, 58% 2%, 60% 3%, 62% 2%, 64% 3%, 66% 2%, 68% 3%, 70% 2%, 72% 3%, 74% 2%, 76% 3%, 78% 2%, 80% 3%, 82% 2%, 84% 3%, 86% 2%, 88% 3%, 90% 2%, 92% 3%, 94% 2%, 96% 3%, 98% 2%, 100% 3%, 100% 100%, 0 100%);
   }
 }

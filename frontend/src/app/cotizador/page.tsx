@@ -139,7 +139,7 @@ export default function CotizadorPage() {
     setNotice("");
     const api = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000";
     try {
-      const payload = { customer_name: customer.name, customer_email: customer.email, guests, package_id: food.id, addons: { entradas: Boolean(starter), postres: wantsDessert, dj: false, fotocabina: false } };
+      const payload = { customer_name: customer.name, customer_email: customer.email, guests, package_id: food.id, event_date: date || null, addons: { entradas: Boolean(starter), postres: wantsDessert, dj: false, fotocabina: false } };
       const response = await fetch(`${api}/api/v1/quotes/calculate`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
       if (!response.ok) throw new Error("No se pudo guardar la cotización.");
       await fetch(`${api}/api/v1/quotes/send-pdf`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });

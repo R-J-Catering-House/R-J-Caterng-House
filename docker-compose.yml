@@ -45,12 +45,14 @@ services:
     container_name: rj_catering_frontend
     environment:
       NEXT_PUBLIC_API_BASE_URL: http://localhost:8000
+      BACKEND_INTERNAL_URL: http://backend:8000
       NEXT_PUBLIC_WEDDING_PLANNER_PHONE: "50662916883"
     ports:
       - "3000:3000"
     volumes:
       - ./frontend:/app
       - /app/node_modules
+      - /app/.next
     depends_on:
       backend:
         condition: service_started

@@ -1,5 +1,6 @@
 from decimal import Decimal
 
+from sqlalchemy import inspect, text
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
@@ -25,6 +26,9 @@ DEFAULT_ADDONS = [
 
 def init_db(session: Session) -> None:
     Base.metadata.create_all(bind=engine)
+    if "event_date" not in {column["name"] for column in inspect(engine).get_columns("quotes")}:
+        with engine.begin() as connection:
+            connection.execute(text("ALTER TABLE quotes ADD COLUMN event_date DATE"))
 
     existing_admin = session.query(User).filter(User.email == settings.admin_email).first()
     if not existing_admin:

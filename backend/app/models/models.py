@@ -1,7 +1,7 @@
-from datetime import datetime
+from datetime import date, datetime
 from decimal import Decimal
 
-from sqlalchemy import Boolean, DateTime, ForeignKey, Integer, Numeric, String, Text
+from sqlalchemy import Boolean, Date, DateTime, ForeignKey, Integer, Numeric, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db.database import Base
@@ -51,6 +51,7 @@ class Quote(Base):
     customer_email: Mapped[str | None] = mapped_column(String(255), nullable=True, index=True)
     guests: Mapped[int] = mapped_column(Integer, nullable=False)
     package_id: Mapped[int] = mapped_column(ForeignKey("packages.id"), nullable=False)
+    event_date: Mapped[date | None] = mapped_column(Date, nullable=True)
     total_amount: Mapped[Decimal] = mapped_column(Numeric(12, 2), nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, nullable=False)
 

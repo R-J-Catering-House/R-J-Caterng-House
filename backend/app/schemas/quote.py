@@ -1,4 +1,5 @@
 from decimal import Decimal
+from datetime import date
 
 from pydantic import BaseModel, EmailStr, Field
 
@@ -15,6 +16,7 @@ class QuoteCalculationRequest(BaseModel):
     customer_email: EmailStr | None = None
     guests: int = Field(ge=60, le=150)
     package_id: int = Field(ge=1, le=5)
+    event_date: date | None = None
     addons: SelectedAddons = Field(default_factory=SelectedAddons)
 
 
