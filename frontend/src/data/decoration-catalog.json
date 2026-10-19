@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Rústico Chic",
+    "image": "/images/salon-corteza.png",
+    "description": "Texturas naturales y luz cálida."
+  },
+  {
+    "name": "Romántico Elegante",
+    "image": "/images/salon-tecal.png",
+    "description": "Detalles suaves y flores delicadas."
+  },
+  {
+    "name": "Minimalista Dorado",
+    "image": "/images/paquetes-vip.png",
+    "description": "Líneas limpias con acentos dorados."
+  },
+  {
+    "name": "Tropical VIP",
+    "image": "/images/salon-asador.png",
+    "description": "Verde exuberante y energía de Uvita."
+  }
+]

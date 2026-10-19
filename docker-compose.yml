@@ -23,6 +23,7 @@ services:
     container_name: rj_catering_backend
     environment:
       DATABASE_URL: postgresql+psycopg://rj_user:rj_password@db:5432/rj_catering
+      CORS_ORIGINS: http://localhost:3000,http://127.0.0.1:3000
       SMTP_HOST: smtp.example.com
       SMTP_PORT: "587"
       SMTP_USER: demo@example.com

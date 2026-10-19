@@ -36,29 +36,31 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <section className="mx-auto max-w-md rounded bg-white p-6 shadow">
-      <h1 className="mb-4 text-2xl font-bold">Ingreso administrador</h1>
+    <section className="editorial-surface mx-auto max-w-md p-7 sm:p-9">
+      <p className="eyebrow">Área privada</p>
+      <h1 className="mt-2 font-display text-4xl text-olive">Ingreso administrador</h1>
+      <p className="mt-3 text-sm leading-6 text-ink/60">Gestiona cotizaciones, galería y reseñas desde un solo lugar.</p>
       <form onSubmit={onSubmit} className="space-y-4">
         <div>
-          <label className="mb-1 block text-sm">Correo</label>
+          <label className="field-label mb-1 block">Correo</label>
           <input
             type="email"
-            className="w-full rounded border border-graphite-lightGray px-3 py-2"
+            className="input-luxury"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
           />
         </div>
         <div>
-          <label className="mb-1 block text-sm">Contraseña</label>
+          <label className="field-label mb-1 block">Contraseña</label>
           <input
             type="password"
-            className="w-full rounded border border-graphite-lightGray px-3 py-2"
+            className="input-luxury"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
         </div>
         {error && <p className="text-sm text-red-600">{error}</p>}
-        <button className="w-full rounded bg-graphite-mutedOlive px-4 py-2 text-white" type="submit" disabled={loading}>
+        <button className="editorial-button w-full" type="submit" disabled={loading}>
           {loading ? "Ingresando..." : "Ingresar"}
         </button>
       </form>

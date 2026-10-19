@@ -2,14 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
+.cotizador-page img.object-cover {
+  object-fit: contain;
+  background: #faf7f2;
+}
+
 @layer base {
   :root {
+<<<<<<< Updated upstream
     --cream: #f8f5ef;
     --marfil: #f8f5ef;
     --burgundy: #581825;
     --pink: #d8b4b8;
     --gold: #d8b4b8;
     --ink: #2d2d2d;
+=======
+    --cream: #faf7f2;
+    --marfil: #faf7f2;
+    --terracotta: #e5a16f;
+    --olive: #046307;
+    --mint: #6ed3b4;
+    --sand: #e8ded0;
+    --ink: #1a1a1a;
+>>>>>>> Stashed changes
   }
 
   * {
@@ -18,7 +33,31 @@
 
   body {
     @apply bg-cream text-ink antialiased;
-    background-image: radial-gradient(circle at 10% 0%, rgba(194, 161, 106, 0.08), transparent 24rem);
+    background-image: radial-gradient(circle at 8% 0%, rgba(229, 161, 111, 0.14), transparent 24rem);
+    font-size: 15px;
+  }
+
+  a,
+  button,
+  input,
+  textarea,
+  select {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  :focus-visible {
+    outline: 3px solid rgba(123, 195, 166, 0.8);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+    }
   }
 
   html {
@@ -29,17 +68,17 @@
 
 @layer components {
   .eyebrow {
-    @apply text-[10px] font-bold uppercase tracking-[0.24em] text-gold;
+    @apply text-[10px] font-bold uppercase tracking-[0.24em] text-terracotta;
   }
 
   .section-title {
-    @apply mt-1 text-3xl text-emerald;
+    @apply mt-1 text-3xl text-olive;
     font-family: var(--font-display), Georgia, serif;
     letter-spacing: -0.02em;
   }
 
   .input-luxury {
-    @apply mt-2 w-full rounded-xl border border-ink/10 bg-cream px-4 py-3 text-sm font-normal normal-case tracking-normal text-ink outline-none transition placeholder:text-ink/30 focus:border-gold;
+    @apply mt-2 w-full rounded-xl border border-ink/15 bg-white/70 px-4 py-3 text-sm font-normal normal-case tracking-normal text-ink outline-none transition placeholder:text-ink/30 focus:border-terracotta focus:ring-2 focus:ring-terracotta/15;
   }
 
   .field-label {
@@ -52,12 +91,12 @@
 
   .location-card,
   .reference-card {
-    @apply flex items-center gap-3 rounded-xl border border-ink/10 bg-cream p-4 text-left text-emerald transition hover:border-gold;
+    @apply flex items-center gap-3 rounded-xl border border-ink/10 bg-white/60 p-4 text-left text-olive transition hover:border-terracotta;
   }
 
   .location-card.selected,
   .reference-card.selected {
-    @apply border-emerald bg-emerald/5;
+    @apply border-olive bg-olive/5;
   }
 
   .location-card > span,
@@ -84,7 +123,7 @@
   }
 
   .toggle.active {
-    @apply bg-emerald;
+    @apply bg-olive;
   }
 
   .toggle.active span {
@@ -92,19 +131,27 @@
   }
 
   .round-control {
-    @apply flex h-7 w-7 items-center justify-center rounded-full bg-white text-lg text-emerald;
+    @apply flex h-7 w-7 items-center justify-center rounded-full bg-white text-lg text-olive;
   }
 
   .round-control.filled {
-    @apply bg-emerald text-white;
+    @apply bg-olive text-white;
   }
 
   .luxury-divider {
-    @apply mx-auto h-px w-20 bg-gold/60;
+    @apply mx-auto h-px w-20 bg-terracotta/60;
   }
 
   .luxury-kicker {
-    @apply text-[9px] uppercase tracking-[0.35em] text-gold;
+    @apply text-[9px] uppercase tracking-[0.35em] text-terracotta;
+  }
+
+  .editorial-surface {
+    @apply rounded-[2rem] border border-ink/10 bg-white/65 shadow-[0_1.5rem_4rem_rgba(45,41,37,0.08)];
+  }
+
+  .editorial-button {
+    @apply inline-flex min-h-12 items-center justify-center rounded-full bg-terracotta px-6 py-3 text-sm font-bold text-white shadow-lg shadow-terracotta/20 transition hover:-translate-y-0.5 hover:bg-terracotta/90;
   }
 
   .footer-wave {

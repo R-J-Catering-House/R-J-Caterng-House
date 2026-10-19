@@ -7,6 +7,7 @@ from app.api.v1.availability import router as availability_router
 from app.api.v1.catalog import router as catalog_router
 from app.api.v1.feedback import router as feedback_router
 from app.api.v1.quote import router as quote_router
+from app.core.config import settings
 from app.db.database import SessionLocal
 from app.db.init_db import init_db
 
@@ -14,7 +15,7 @@ app = FastAPI(title="R&J Catering House API", version="0.2.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_origins=[origin.strip() for origin in settings.cors_origins.split(",") if origin.strip()],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

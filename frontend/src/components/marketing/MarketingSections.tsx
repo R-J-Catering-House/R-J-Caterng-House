@@ -4,7 +4,6 @@ const galleryImages = [
   ["El Asador · General Viejo", "/images/salon-asador.png"],
   ["El Tecal · Uvita", "/images/salon-tecal.png"],
   ["La Corteza · Pérez Zeledón", "/images/salon-corteza.png"],
-  ["Paquetes R&J", "/images/paquetes-vip.png"],
 ];
 
 const services = [
@@ -25,7 +24,7 @@ export function GalleryPreview() {
       </div>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {galleryImages.map(([title, image]) => (
-          <Link key={title} href="/galeria" className="group relative h-64 overflow-hidden rounded-2xl shadow-md">
+          <Link key={title} href="/galeria" className="group relative h-72 overflow-hidden rounded-2xl shadow-md sm:h-80 lg:h-72">
             <img src={image} alt={title} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/80 to-transparent p-4 pt-16 text-sm font-bold text-white">{title}</div>
           </Link>
@@ -85,8 +84,8 @@ export function ExtraServices() {
 
 export function WhyUs() {
   return (
-    <section className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-      <div className="relative min-h-[360px] overflow-hidden rounded-3xl">
+    <section id="nosotros" className="scroll-mt-8 grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+      <div className="relative min-h-[24rem] overflow-hidden rounded-3xl sm:min-h-[32rem]">
         <img src="/images/salon-asador.png" alt="Celebración elegante organizada por R&J Catering House" className="absolute inset-0 h-full w-full object-cover" />
       </div>
       <div>
@@ -97,6 +96,7 @@ export function WhyUs() {
             <div key={item} className="flex gap-3 text-sm leading-6 text-ink/65"><span className="mt-1 text-gold">✦</span>{item}</div>
           ))}
         </div>
+<<<<<<< Updated upstream
       </div>
     </section>
   );
@@ -117,6 +117,8 @@ export function AboutUs() {
           <p><strong className="font-bold text-burgundy">Nuestra historia comienza con una amistad</strong> y el amor compartido por crear momentos inolvidables alrededor de la mesa. Decidimos unir nuestros talentos para dar vida a R&amp;J Catering House.</p>
           <p><strong className="font-bold text-burgundy">Creemos en los detalles.</strong> Nos especializamos en diseñar experiencias culinarias únicas, asegurándonos de que cada evento refleje la misma dedicación y cariño que le ponemos a nuestra propia mesa.</p>
         </div>
+=======
+>>>>>>> Stashed changes
       </div>
     </section>
   );
