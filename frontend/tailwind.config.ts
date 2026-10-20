@@ -9,17 +9,16 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        cream: "#F8F5EF",
-        marfil: "#F8F5EF",
-        black: "#201C1A",
-        burgundy: "#581825",
-        pink: "#D8B4B8",
-        emerald: "#581825",
-        gold: "#D8B4B8",
-        beige: "#E9E1D5",
-        ink: "#2D2D2D",
+        cream: "#F7F3EC",
+        marfil: "#F7F3EC",
+        black: "#2D2925",
+        burgundy: "#E5A16F",
+        emerald: "#7D8B73",
+        gold: "#E5A16F",
+        beige: "#E8DED0",
+        ink: "#2D2925",
         terracotta: "#E5A16F",
-        olive: "#046307",
+        olive: "#7D8B73",
         sand: "#E8DED0",
         mint: "#6ED3B4",
         graphite: {

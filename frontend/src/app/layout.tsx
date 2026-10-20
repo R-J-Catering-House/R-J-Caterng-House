@@ -20,8 +20,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`${display.variable} ${sans.variable} min-h-screen font-sans`}>
-        <main>{children}</main>
+      <body className={`${display.variable} ${sans.variable} ${script.variable} min-h-screen font-sans`}>
+        <main className="w-full max-w-none">{children}</main>
+        <PublicFooter />
       </body>
     </html>
   );

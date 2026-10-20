@@ -100,23 +100,3 @@ export function WhyUs() {
     </section>
   );
 }
-
-export function AboutUs() {
-  return (
-    <section id="sobre-nosotras" className="mx-auto grid max-w-7xl gap-8 px-5 py-10 lg:grid-cols-2 lg:items-center sm:px-10">
-      <div className="relative min-h-[380px] overflow-hidden rounded-2xl">
-        <img src="/images/salon-corteza.png" alt="Rachel y Jimena creando una experiencia para sus clientes" className="absolute inset-0 h-full w-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-burgundy/40 to-transparent" />
-      </div>
-      <div className="max-w-xl">
-        <p className="eyebrow">Sobre nosotras</p>
-        <h2 className="mt-2 font-display text-5xl leading-none text-burgundy sm:text-6xl">Hola, somos Rachel y Jimena</h2>
-        <div className="mt-7 space-y-5 text-sm leading-7 text-ink/65">
-          <p>Nuestros nombres son Rachel y Jimena, somos mejores amigas y socias apasionadas por la gastronomía.</p>
-          <p><strong className="font-bold text-burgundy">Nuestra historia comienza con una amistad</strong> y el amor compartido por crear momentos inolvidables alrededor de la mesa. Decidimos unir nuestros talentos para dar vida a R&amp;J Catering House.</p>
-          <p><strong className="font-bold text-burgundy">Creemos en los detalles.</strong> Nos especializamos en diseñar experiencias culinarias únicas, asegurándonos de que cada evento refleje la misma dedicación y cariño que le ponemos a nuestra propia mesa.</p>
-        </div>
-      </div>
-    </section>
-  );
-}
