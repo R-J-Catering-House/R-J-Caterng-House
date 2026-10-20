@@ -9,22 +9,12 @@
 
 @layer base {
   :root {
-<<<<<<< Updated upstream
     --cream: #f8f5ef;
     --marfil: #f8f5ef;
     --burgundy: #581825;
     --pink: #d8b4b8;
     --gold: #d8b4b8;
     --ink: #2d2d2d;
-=======
-    --cream: #faf7f2;
-    --marfil: #faf7f2;
-    --terracotta: #e5a16f;
-    --olive: #046307;
-    --mint: #6ed3b4;
-    --sand: #e8ded0;
-    --ink: #1a1a1a;
->>>>>>> Stashed changes
   }
 
   * {

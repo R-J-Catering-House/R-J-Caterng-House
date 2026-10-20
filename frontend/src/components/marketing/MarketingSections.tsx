@@ -96,7 +96,6 @@ export function WhyUs() {
             <div key={item} className="flex gap-3 text-sm leading-6 text-ink/65"><span className="mt-1 text-gold">✦</span>{item}</div>
           ))}
         </div>
-<<<<<<< Updated upstream
       </div>
     </section>
   );
@@ -117,8 +116,6 @@ export function AboutUs() {
           <p><strong className="font-bold text-burgundy">Nuestra historia comienza con una amistad</strong> y el amor compartido por crear momentos inolvidables alrededor de la mesa. Decidimos unir nuestros talentos para dar vida a R&amp;J Catering House.</p>
           <p><strong className="font-bold text-burgundy">Creemos en los detalles.</strong> Nos especializamos en diseñar experiencias culinarias únicas, asegurándonos de que cada evento refleje la misma dedicación y cariño que le ponemos a nuestra propia mesa.</p>
         </div>
-=======
->>>>>>> Stashed changes
       </div>
     </section>
   );

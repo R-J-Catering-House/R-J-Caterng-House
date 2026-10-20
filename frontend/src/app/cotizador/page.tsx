@@ -146,28 +146,8 @@ export default function CotizadorPage() {
 
   function nextStep() {
     setNotice("");
-<<<<<<< Updated upstream
-    const api = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000";
-    try {
-      const payload = { customer_name: customer.name, customer_email: customer.email, guests, package_id: food.id, event_date: date || null, addons: { entradas: Boolean(starter), postres: wantsDessert, dj: false, fotocabina: false } };
-      const response = await fetch(`${api}/api/v1/quotes/calculate`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-      if (!response.ok) throw new Error("No se pudo guardar la cotización.");
-      await fetch(`${api}/api/v1/quotes/send-pdf`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-      setNotice("La cotización quedó guardada. Estamos para servirle.");
-    } catch (error) {
-      setNotice(error instanceof Error ? error.message : "No se pudo guardar la cotización.");
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  function contactPlanner() {
-    if (!customer.name || !customer.email || !customer.phone || !customer.location) {
-      setNotice("Completa nombre, correo, teléfono y ubicación antes de contactar a la Wedding Planner.");
-=======
     if (step === 2 && (!date || !timeStart || !timeEnd || timeEnd <= timeStart || guests < 1 || guests > selectedPackage.capacity)) {
       setNotice(`Completa fecha, horario válido y una cantidad entre 1 y ${selectedPackage.capacity} invitados.`);
->>>>>>> Stashed changes
       return;
     }
     if (step === 3 && selectedSides.length !== 2) {
