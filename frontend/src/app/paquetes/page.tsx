@@ -1,6 +1,7 @@
 import Link from "next/link";
 import EditorialHero from "@/components/marketing/EditorialHero";
 import SiteHeader from "@/components/marketing/SiteHeader";
+import { IMAGES } from "@/lib/images";
 
 type PackageCard = {
   id: string;
@@ -57,7 +58,7 @@ const packages: PackageCard[] = [
     subtitle: "Lujo · Hasta 150 personas",
     price: "₡2.380.000",
     capacity: "Precio total cerrado",
-    accent: "#046307",
+    accent: "#6B7B5E",
     includes: [
       "Alimentación VIP para 150 invitados",
       "Experiencia VIP: acceso a instalaciones con área de piscina habilitada y servicio completo de barra de bebidas",
@@ -82,44 +83,44 @@ export default function PackagesPage() {
         title="Una propuesta para"
         highlight="cada celebración."
         description="Precios totales cerrados con la operación esencial de tu evento incluida. Sin cálculos por persona ni sorpresas."
-        image="/images/salon-corteza.png"
-        imageAlt="Montaje de celebración R&J"
+        image={IMAGES.paquetes}
+        imageAlt="Pasillo de ceremonia con arreglos florales"
       />
 
       <section aria-labelledby="packages-title">
-        <div className="mb-6">
+        <div data-reveal className="mb-6">
           <p className="eyebrow">Elige tu experiencia</p>
           <h2 id="packages-title" className="section-title">Un precio claro. Una celebración memorable.</h2>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-ink/60">Cada paquete cubre su capacidad máxima indicada. Invitado extra: ₡15.000.</p>
         </div>
         <div className="grid items-stretch gap-6 lg:grid-cols-3">
           {packages.map((item, index) => (
-            <article key={item.id} className={`relative flex flex-col overflow-hidden rounded-3xl border bg-white shadow-lg transition hover:-translate-y-1 hover:shadow-xl ${index === 1 ? "border-[#D4AF37] ring-2 ring-[#D4AF37]/30" : "border-[#1A1A1A]/10"}`}>
-              <div className="h-2" style={{ backgroundColor: item.accent }} />
+            <div key={item.id} data-reveal style={{ transitionDelay: `${index * 140}ms` }} className="flex"><article className={`relative flex w-full flex-col rounded-xl border bg-white transition hover:-translate-y-1 ${index === 1 ? "border-2 border-sage-olive" : "border-line"}`}>
+              {index === 1 && <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-sage-olive px-4 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-cream">Recomendado</span>}
               <div className="flex flex-1 flex-col p-6 sm:p-7">
-                <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#D4AF37]">{item.subtitle}</p>
-                <h3 className="mt-2 font-display text-3xl text-[#046307]">{item.name}</h3>
-                <p className="mt-6 text-[10px] font-bold uppercase tracking-[0.2em] text-[#1A1A1A]/45">{item.capacity}</p>
-                <p className="mt-1 text-4xl font-bold text-[#1A1A1A]">{item.price}</p>
-                <p className="mt-2 text-xs font-semibold text-[#1A1A1A]/55">Invitado extra: ₡15.000</p>
+                <p className="text-center text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-gold">{item.subtitle}</p>
+                <h3 className="mt-2 text-center font-display text-3xl text-sage-olive">{item.name}</h3>
+                <p className="mt-6 text-center text-[10px] font-semibold uppercase tracking-[0.2em] text-ink/45">{item.capacity}</p>
+                <p className="mt-1 text-center font-display text-4xl font-semibold text-ink">{item.price}</p>
+                <p className="mt-2 text-center text-xs text-ink/55">Invitado extra: ₡15.000</p>
 
-                <div className="mt-6 border-t border-[#1A1A1A]/10 pt-5">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-[#046307]">Qué incluye</h4>
-                  <ul className="mt-3 space-y-2 text-sm leading-5 text-[#1A1A1A]/75">
-                    {item.includes.map((entry) => <li key={entry} className="flex gap-2"><span className="text-[#D4AF37]">✓</span><span>{entry}</span></li>)}
+                <div className="mt-6 border-t border-line pt-5">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-sage-olive">Qué incluye</h4>
+                  <ul className="mt-3 space-y-2 text-sm leading-5 text-ink/75">
+                    {item.includes.map((entry) => <li key={entry} className="flex gap-2"><span className="text-sage-olive">✓</span><span>{entry}</span></li>)}
                   </ul>
                 </div>
 
-                <div className="mt-6 border-t border-[#1A1A1A]/10 pt-5">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-[#046307]">Adicionales con costo extra</h4>
-                  <p className="mt-3 text-sm leading-6 text-[#1A1A1A]/65">{item.extras.join(" · ")}</p>
+                <div className="mt-6 border-t border-line pt-5">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-sage-olive">Adicionales con costo extra</h4>
+                  <p className="mt-3 text-sm leading-6 text-ink/65">{item.extras.join(" · ")}</p>
                 </div>
 
-                <Link href={`/cotizador?paquete=${item.id}`} className="mt-7 w-full rounded-xl bg-[#046307] px-5 py-3 text-center text-sm font-bold text-white transition hover:bg-[#046307]/90">
+                <Link href={`/cotizador?paquete=${item.id}`} className={`mt-7 w-full rounded-md border border-sage-olive px-5 py-3 text-center text-sm font-semibold transition ${index === 1 ? "bg-sage-olive text-cream hover:bg-sage-olive/85" : "text-sage-olive hover:bg-sage-olive hover:text-cream"}`}>
                   Seleccionar Paquete y Continuar
                 </Link>
               </div>
-            </article>
+            </article></div>
           ))}
         </div>
       </section>

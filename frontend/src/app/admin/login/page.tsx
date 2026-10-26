@@ -5,8 +5,8 @@ import { useState } from "react";
 
 export default function AdminLoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState("admin@rjcateringhouse.com");
-  const [password, setPassword] = useState("Admin123!");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -16,20 +16,19 @@ export default function AdminLoginPage() {
     setError(null);
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000"}/api/v1/auth/login`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL ?? ""}/api/v1/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ email, password }),
       });
 
       if (!response.ok) {
-        setError("Credenciales inválidas");
+        setError(response.status === 429 ? "Demasiados intentos. Intenta de nuevo en 15 minutos." : "Credenciales inválidas");
         return;
       }
 
-      const data = (await response.json()) as { access_token: string };
-      localStorage.setItem("admin_token", data.access_token);
-      router.push("/admin");
+      router.replace("/admin");
     } finally {
       setLoading(false);
     }
@@ -45,6 +44,8 @@ export default function AdminLoginPage() {
           <label className="field-label mb-1 block">Correo</label>
           <input
             type="email"
+            autoComplete="username"
+            required
             className="input-luxury"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
@@ -54,6 +55,8 @@ export default function AdminLoginPage() {
           <label className="field-label mb-1 block">Contraseña</label>
           <input
             type="password"
+            autoComplete="current-password"
+            required
             className="input-luxury"
             value={password}
             onChange={(event) => setPassword(event.target.value)}

@@ -12,8 +12,12 @@ class Settings(BaseSettings):
     smtp_user: str = "demo@example.com"
     smtp_password: str = "demo_password"
     smtp_from_email: str = "no-reply@rjcateringhouse.com"
-    admin_email: str = "admin@rjcateringhouse.com"
-    admin_password: str = "Admin123!"
+    owner1_email: str = ""
+    owner1_password: str = ""
+    owner2_email: str = ""
+    owner2_password: str = ""
+    cookie_secure: bool = False
+    session_cookie_name: str = "rj_admin_session"
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 

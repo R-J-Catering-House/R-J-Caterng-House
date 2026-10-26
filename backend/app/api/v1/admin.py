@@ -115,6 +115,24 @@ def create_photo(payload: EventPhotoCreate, db: Session = Depends(get_db), _: Us
     return photo
 
 
+@router.delete("/photos/{photo_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_photo(photo_id: int, db: Session = Depends(get_db), _: User = Depends(get_current_user)):
+    photo = db.query(EventPhoto).filter(EventPhoto.id == photo_id).first()
+    if not photo:
+        raise HTTPException(status_code=404, detail="Foto no encontrada")
+    db.delete(photo)
+    db.commit()
+
+
+@router.delete("/reviews/{review_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_review(review_id: int, db: Session = Depends(get_db), _: User = Depends(get_current_user)):
+    review = db.query(Review).filter(Review.id == review_id).first()
+    if not review:
+        raise HTTPException(status_code=404, detail="Reseña no encontrada")
+    db.delete(review)
+    db.commit()
+
+
 @router.get("/reviews", response_model=list[ReviewRead])
 def list_reviews(db: Session = Depends(get_db), _: User = Depends(get_current_user)):
     return db.query(Review).order_by(Review.created_at.desc()).all()

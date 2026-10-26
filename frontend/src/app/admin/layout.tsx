@@ -5,19 +5,31 @@ import { usePathname, useRouter } from "next/navigation";
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 
+const api = process.env.NEXT_PUBLIC_API_BASE_URL ?? "";
+
 export default function AdminLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("admin_token");
-    if (!token && pathname !== "/admin/login") {
-      router.replace("/admin/login");
+    if (pathname === "/admin/login") {
+      setReady(true);
       return;
     }
-    setReady(true);
+    fetch(`${api}/api/v1/auth/me`, { credentials: "include" })
+      .then((response) => {
+        if (response.ok) setReady(true);
+        else router.replace("/admin/login");
+      })
+      .catch(() => router.replace("/admin/login"));
   }, [pathname, router]);
+
+  async function logout() {
+    await fetch(`${api}/api/v1/auth/logout`, { method: "POST", credentials: "include" }).catch(() => undefined);
+    setReady(false);
+    router.replace("/admin/login");
+  }
 
   if (!ready) return null;
 
@@ -35,10 +47,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
             <button
               type="button"
               className="rounded-full border border-terracotta/40 px-4 py-2 text-terracotta transition hover:bg-terracotta hover:text-white"
-              onClick={() => {
-                localStorage.removeItem("admin_token");
-                router.push("/admin/login");
-              }}
+              onClick={logout}
             >
               Cerrar sesión
             </button>

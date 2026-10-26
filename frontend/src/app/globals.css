@@ -2,20 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-.cotizador-page img.object-cover {
-  object-fit: contain;
-  background: #faf7f2;
-}
-
 @layer base {
   :root {
-    --cream: #faf7f2;
-    --marfil: #faf7f2;
-    --terracotta: #e5a16f;
-    --olive: #046307;
-    --mint: #6ed3b4;
-    --sand: #e8ded0;
-    --ink: #1a1a1a;
+    --cream: #F8F6F1;
+    --blush: #F6E6E3;
+    --sage: #8A9A7B;
+    --sage-dark: #6B7B5E;
+    --sage-olive: #7E8068;
+    --muted-gold: #8A7650;
+    --line: #D9D3C7;
+    --gold: #C9A875;
+    --rose: #D9A5A8;
+    --ink: #3B352E;
   }
 
   * {
@@ -24,7 +22,6 @@
 
   body {
     @apply bg-cream text-ink antialiased;
-    background-image: radial-gradient(circle at 8% 0%, rgba(229, 161, 111, 0.14), transparent 24rem);
     font-size: 15px;
   }
 
@@ -37,7 +34,7 @@
   }
 
   :focus-visible {
-    outline: 3px solid rgba(123, 195, 166, 0.8);
+    outline: 3px solid rgba(138, 154, 123, 0.8);
     outline-offset: 3px;
   }
 
@@ -57,19 +54,66 @@
   }
 }
 
+
+[data-reveal] {
+  opacity: 0;
+  translate: 0 0.6rem;
+  transition: opacity 1.2s ease, translate 1.2s ease;
+  will-change: opacity, translate;
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  translate: 0 0;
+  will-change: auto;
+}
+
+@keyframes hero-fade {
+  from {
+    opacity: 0;
+    translate: 0 0.5rem;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@keyframes hero-zoom {
+  from {
+    transform: scale(1.06);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.hero-fade {
+  opacity: 0;
+  animation: hero-fade 1.8s ease-out forwards;
+  animation-delay: var(--delay, 0ms);
+}
+
+.hero-zoom {
+  animation: hero-zoom 9s ease-out forwards;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+
 @layer components {
   .eyebrow {
-    @apply text-[10px] font-bold uppercase tracking-[0.24em] text-terracotta;
+    @apply text-[10px] font-bold uppercase tracking-[0.24em] text-gold;
   }
 
   .section-title {
-    @apply mt-1 text-3xl text-olive;
+    @apply mt-1 text-3xl text-sage;
     font-family: var(--font-display), Georgia, serif;
     letter-spacing: -0.02em;
   }
 
   .input-luxury {
-    @apply mt-2 w-full rounded-xl border border-ink/15 bg-white/70 px-4 py-3 text-sm font-normal normal-case tracking-normal text-ink outline-none transition placeholder:text-ink/30 focus:border-terracotta focus:ring-2 focus:ring-terracotta/15;
+    @apply mt-2 w-full rounded-xl border border-ink/15 bg-white/70 px-4 py-3 text-sm font-normal normal-case tracking-normal text-ink outline-none transition placeholder:text-ink/30 focus:border-sage focus:ring-2 focus:ring-sage/15;
   }
 
   .field-label {
@@ -82,12 +126,12 @@
 
   .location-card,
   .reference-card {
-    @apply flex items-center gap-3 rounded-xl border border-ink/10 bg-white/60 p-4 text-left text-olive transition hover:border-terracotta;
+    @apply flex items-center gap-3 rounded-xl border border-ink/10 bg-white/60 p-4 text-left text-sage transition hover:border-gold;
   }
 
   .location-card.selected,
   .reference-card.selected {
-    @apply border-olive bg-olive/5;
+    @apply border-sage bg-sage/5;
   }
 
   .location-card > span,
@@ -114,7 +158,7 @@
   }
 
   .toggle.active {
-    @apply bg-olive;
+    @apply bg-sage;
   }
 
   .toggle.active span {
@@ -122,27 +166,27 @@
   }
 
   .round-control {
-    @apply flex h-7 w-7 items-center justify-center rounded-full bg-white text-lg text-olive;
+    @apply flex h-7 w-7 items-center justify-center rounded-full bg-white text-lg text-sage;
   }
 
   .round-control.filled {
-    @apply bg-olive text-white;
+    @apply bg-sage text-white;
   }
 
   .luxury-divider {
-    @apply mx-auto h-px w-20 bg-terracotta/60;
+    @apply mx-auto h-px w-20 bg-gold/60;
   }
 
   .luxury-kicker {
-    @apply text-[9px] uppercase tracking-[0.35em] text-terracotta;
+    @apply text-[9px] uppercase tracking-[0.35em] text-gold;
   }
 
   .editorial-surface {
-    @apply rounded-[2rem] border border-ink/10 bg-white/65 shadow-[0_1.5rem_4rem_rgba(45,41,37,0.08)];
+    @apply rounded-[2rem] border border-line bg-white shadow-sm;
   }
 
   .editorial-button {
-    @apply inline-flex min-h-12 items-center justify-center rounded-full bg-terracotta px-6 py-3 text-sm font-bold text-white shadow-lg shadow-terracotta/20 transition hover:-translate-y-0.5 hover:bg-terracotta/90;
+    @apply inline-flex min-h-12 items-center justify-center rounded-full border border-sage-dark px-6 py-3 text-sm font-semibold text-sage-dark transition hover:-translate-y-0.5 hover:bg-sage-dark hover:text-cream;
   }
 
   .footer-wave {

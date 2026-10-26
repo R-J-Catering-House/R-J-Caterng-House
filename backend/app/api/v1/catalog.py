@@ -2,9 +2,15 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.db.database import get_db
-from app.models.models import Addon, Package
+from app.models.models import Addon, EventPhoto, Package
 
 router = APIRouter()
+
+
+@router.get("/photos")
+def list_public_photos(db: Session = Depends(get_db)) -> list[dict]:
+    photos = db.query(EventPhoto).order_by(EventPhoto.created_at.desc()).all()
+    return [{"id": photo.id, "title": photo.title, "image_url": photo.image_url} for photo in photos]
 
 
 @router.get("/catalog")

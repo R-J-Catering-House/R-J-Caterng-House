@@ -4,7 +4,7 @@ from sqlalchemy import inspect, text
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
-from app.core.security import hash_password
+from app.core.security import hash_password, verify_password
 from app.db.database import Base, engine
 from app.models.models import Addon, Package, User
 
@@ -30,15 +30,24 @@ def init_db(session: Session) -> None:
         with engine.begin() as connection:
             connection.execute(text("ALTER TABLE quotes ADD COLUMN event_date DATE"))
 
-    existing_admin = session.query(User).filter(User.email == settings.admin_email).first()
-    if not existing_admin:
-        session.add(
-            User(
-                email=settings.admin_email,
-                hashed_password=hash_password(settings.admin_password),
-                is_active=True,
-            )
-        )
+    owners = [
+        (settings.owner1_email.strip().lower(), settings.owner1_password),
+        (settings.owner2_email.strip().lower(), settings.owner2_password),
+    ]
+    owners = [(email, password) for email, password in owners if email and password]
+    for email, password in owners:
+        user = session.query(User).filter(User.email == email).first()
+        if not user:
+            session.add(User(email=email, hashed_password=hash_password(password), is_active=True))
+        else:
+            user.is_active = True
+            if not verify_password(password, user.hashed_password):
+                user.hashed_password = hash_password(password)
+
+    allowed = {email for email, _ in owners}
+    for user in session.query(User).all():
+        if user.email not in allowed:
+            user.is_active = False
 
     if session.query(Package).count() == 0:
         for pkg in DEFAULT_PACKAGES:

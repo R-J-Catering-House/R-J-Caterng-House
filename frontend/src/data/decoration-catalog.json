@@ -1,22 +1,22 @@
 [
   {
     "name": "Rústico Chic",
-    "image": "/images/salon-corteza.png",
+    "image": "/images/estilos/rustico-chic.jpg",
     "description": "Texturas naturales y luz cálida."
   },
   {
     "name": "Romántico Elegante",
-    "image": "/images/salon-tecal.png",
+    "image": "/images/estilos/romantico-elegante.jpg",
     "description": "Detalles suaves y flores delicadas."
   },
   {
     "name": "Minimalista Dorado",
-    "image": "/images/paquetes-vip.png",
+    "image": "/images/estilos/minimalista-dorado.jpg",
     "description": "Líneas limpias con acentos dorados."
   },
   {
     "name": "Tropical VIP",
-    "image": "/images/salon-asador.png",
+    "image": "/images/estilos/tropical.jpg",
     "description": "Verde exuberante y energía de Uvita."
   }
 ]
