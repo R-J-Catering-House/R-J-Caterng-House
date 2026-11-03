@@ -221,9 +221,11 @@ export default function CotizadorPage() {
     const currentFolio = folio || createFolio();
     setFolio(currentFolio);
     window.localStorage.setItem(`rj-cotizacion-${currentFolio}`, JSON.stringify({ folio: currentFolio, contact, packageId, total, summary: summaryLines() }));
-    const phone = (process.env.NEXT_PUBLIC_WEDDING_PLANNER_PHONE ?? "50662916883").replace(/\D/g, "");
+    // "||" para usar el número de R&J también si la variable viene vacía.
+    const phone = (process.env.NEXT_PUBLIC_WEDDING_PLANNER_PHONE || "50662916883").replace(/\D/g, "");
     const message = `Hola, soy ${contact.name}. Deseo reservar una fecha en R&J Catering House.\nFolio: ${currentFolio}\n${summaryLines().join("\n")}\nContacto: ${contact.email} · ${contact.phone}`;
-    const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+    // Enlace directo de WhatsApp: evita la redirección de wa.me, que puede perder el texto del mensaje.
+    const whatsappUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(message)}`;
     const whatsappWindow = window.open(whatsappUrl, "_blank");
     if (!whatsappWindow) {
       window.location.assign(whatsappUrl);

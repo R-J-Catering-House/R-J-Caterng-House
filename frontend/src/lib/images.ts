@@ -4,5 +4,5 @@ export const IMAGES = {
   servicios: "/images/fondo-servicios.jpg",
   agenda: "/images/fondo-agenda.png",
   paquetes: "/images/fondo-paquetes.jpg",
-  sobre: "/images/fondo-sobre.jpg",
+  sobre: "/images/sobre-nosotras.png",
 } as const;

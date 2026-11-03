@@ -8,8 +8,7 @@ export default function AboutPage() {
       <SiteHeader />
       <section className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-6 py-16 md:grid-cols-2">
         <div data-reveal className="relative h-[28rem] overflow-hidden rounded-3xl sm:h-[36rem]">
-          <Image src={IMAGES.sobre} alt="Sillas decoradas con flores para una celebración R&J" fill sizes="(min-width: 768px) 50vw, 100vw" className="object-cover" />
-          <div className="absolute inset-0 bg-black/30" />
+          <Image src={IMAGES.sobre} alt="Rachel y Jimena, fundadoras de R&J Catering House" fill sizes="(min-width: 768px) 50vw, 100vw" className="object-cover object-top" />
         </div>
         <div data-reveal style={{ transitionDelay: "180ms" }} className="space-y-4">
           <p className="eyebrow">Nuestra historia</p>

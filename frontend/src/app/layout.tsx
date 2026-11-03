@@ -1,13 +1,20 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Great_Vibes, Open_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import type { ReactNode } from "react";
 import "./globals.css";
 import PublicFooter from "@/components/marketing/PublicFooter";
 import RevealOnScroll from "@/components/marketing/RevealOnScroll";
 
-const display = Cormorant_Garamond({ subsets: ["latin"], variable: "--font-display", weight: ["400", "500", "600", "700"], style: ["normal", "italic"] });
-const sans = Open_Sans({ subsets: ["latin"], variable: "--font-sans", weight: ["400", "500", "600", "700"] });
-const script = Great_Vibes({ subsets: ["latin"], variable: "--font-script", weight: "400" });
+// Fuentes guardadas en src/fonts para no depender de descargar Google Fonts al compilar.
+const display = localFont({
+  src: [
+    { path: "../fonts/cormorant-garamond.woff2", weight: "400 700", style: "normal" },
+    { path: "../fonts/cormorant-garamond-italic.woff2", weight: "400 700", style: "italic" },
+  ],
+  variable: "--font-display",
+});
+const sans = localFont({ src: "../fonts/open-sans.woff2", weight: "400 700", variable: "--font-sans" });
+const script = localFont({ src: "../fonts/great-vibes.woff2", weight: "400", variable: "--font-script" });
 
 export const metadata: Metadata = {
   title: "R&J Catering House",
